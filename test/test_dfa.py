@@ -1,5 +1,12 @@
+import sys
+import os
+
+current_dir = os.path.dirname(__file__)
+parent_dir = os.path.abspath(os.path.join(current_dir, '..'))
+sys.path.insert(0, parent_dir)
+
 import unittest
-from dfa import dfa_search
+from src.dfa import dfa_search
 class TestDFASearch(unittest.TestCase):
     
     def test_standard_search(self):
