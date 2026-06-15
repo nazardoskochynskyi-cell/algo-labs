@@ -1,52 +1,30 @@
-## algo-labs
-                Доскочинський Назарій ІР-12
-        Алгоритмізація та програмування частина 2
+# Indiana Jones and the Last Rectangular Traversal
 
-#                   Варіант 1
+## 📝 Project Overview
+This project solves an algorithmic pathfinding problem using **Dynamic Programming (DP)**. The goal is to calculate the total number of unique valid paths through a grid (corridor) based on specific movement rules.
 
-Iндiана Джонс i останнiй прямокутний обхiд
-Код задачi: IJONES
-В пошуках Святого Грааля Iндiана Джонс зiткнувся з небезпечним випробуванням.
-Йому потрiбно пройти крiзь прямокутний коридор, який складається з крихких плит
-(пригадайте сцену з фiльму «Iндiана Джонс i останнiй хрестовий похiд»). На кожнiй
-плитi написана одна лiтера:
+### 🎯 Exercise Task
+Indiana Jones needs to pass through a rectangular corridor made of fragile tiles, each marked with a lowercase English letter. He starts at any tile in the leftmost column and must exit through either the top-right or bottom-right tile. He can move one step to the right, or jump to any tile to his right that has the *same letter* as his current tile. The program must calculate the total number of ways to successfully navigate the corridor.
 
-a a a
-c a b
-d e f
+---
 
-Можна починати з будь-якої плити в найлiвiшому стовпцi. Виходом iз коридору є
-верхня права та нижня права плити (для прикладу вище — a та f).
-Iндiана спритний,i може переходити не лише на сусiдню плиту, а й перестрибувати
-через кiлька плит. Проте, щоб не провалитися крiзь пiдлогу, вiн повинен дотримуватися
-таких правил:
-1. Пiсля кожного кроку Iндiана повинен опинятися правiше, нiж був перед цим.
+## ⚙️ Algorithm Explanation
+The solution uses Dynamic Programming to avoid redundant calculations. Instead of recursively exploring every possible path (which would lead to an exponential time complexity), the algorithm processes the grid column by column from left to right.
 
-a a a
-c a b
-d e f
-2. Завжди можна переходити на одну плиту праворуч.
-a a a
-c a b
-d e f
+1. **State Representation:** The array `dp` keeps track of the number of valid paths to reach each cell in the current column.
+2. **Optimization:** A hash map (or array) `sums` is maintained to store the running total of paths for each character ('a' through 'z'). This allows checking the "jump" condition in constant time.
+3. **State Transition:** For each cell in the next column, the number of ways to reach it is updated based on the total paths to the same character (`sums[char]`) and the path from the immediately adjacent left cell.
 
-3. Крiм руху на одну плиту праворуч, можна перестрибувати, проте лише на ту
-саму лiтеру. Наприклад, злiтери a можна перестрибнути на будь-яку iншу
-лiтеру a за умови, що ми цим ходом просунемося правiше.
+### ⏱️ Complexity
+* **Time Complexity:** $\mathcal{O}(W \times H)$, where $W$ is the width and $H$ is the height of the grid. The algorithm processes each cell exactly once.
+* **Space Complexity:** $\mathcal{O}(H)$ for storing the `dp` array of the current column. The memory used for the character `sums` dictionary is $\mathcal{O}(1)$ since the alphabet size is constant (26 letters).
 
-a a a
-c a b
-d e f
+---
 
-1
+## 📁 Project Structure
 
-Для заданого коридору, пiдрахуйте, скiльки всього iснує способiв пройти його успiшно.
-Вхiднi данi
-Вхiдний файл ijones .in складається з H +1 рядкiв.
-• Перший рядок мiстить два числа W i H, роздiленi пробiлом: W — ширина
-коридору, H — висота коридору, 1  W, H  2000.
-• Кожен з наступних H рядкiвмiстить слово довжиною W символiв, яке складається
-з малих латинських лiтер вiд a до z.
-Вихiднi данi
-Вихiдний файл ijones .out повинен мiстити одне цiле число — кiлькiсть рiзних
-шляхiв для виходу з коридору.
+```text
+├── in_ijones.txt        # Input file containing grid dimensions and matrix
+├── out_ijones.txt       # Output file for the result
+├── ijones.py            # Core algorithm implementation
+└── README.md
