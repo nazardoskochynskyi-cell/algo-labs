@@ -1,95 +1,31 @@
-## algo-labs
-                Доскочинський Назарій ІР-12
-        Алгоритмізація та програмування частина 2
+# Game Server Latency Minimization (Dijkstra's Algorithm) 🎮
 
-#                  Варіант 1, рівень 3
+## 📝 Project Overview
+This project solves a network optimization problem using **Dijkstra's Algorithm** and a custom **Min-Heap (Priority Queue)**. The objective is to find the optimal placement for a central game server in a network topology to minimize the maximum network latency experienced by any client.
 
-* Код задачi: GAMSRV
-Важливим фактором для багатокористувацької онлайн-гри є низька мережева затримка
-вiд користувача до сервера. При цьому, пристрої в Iнтернетi спiлкуються один з
-одним, використовуючи мережевi маршрути, якi проходять через низку промiжних
-вузлiв-маршрутизаторiв. Кожна ланка цього маршруту має власну ненульову затримку.
+### 🎯 Exercise Task
+You are developing an online game and need to place a central server to ensure the lowest possible maximum latency for all players (clients). The network is an undirected graph where nodes are routers, clients, or the server, and edges represent latency. The server can be placed on any node that is not a client. The program must find the optimal server location that minimizes the maximum shortest-path latency to any client, and return this minimum possible latency value.
+---
 
-![alt text](image.png)
+## ⚙️ Algorithm Explanation
+The solution uses a minimax approach on top of the shortest-path algorithm:
 
-• Кожен вузол мережi може виконувати одну з трьох ролей: Client, Router або
-Server.
-• Server може бути лише один на всю мережу.
-• Усi комунiкацiї двостороннi: якщо вузол A може спiлкуватися з вузлом B,
-вузол B може спiлкуватися з вузлом A з такою ж затримкою.
-• Якщо iснує кiлька шляхiв вiд клiєнта до сервера, клiєнт гарантовано пiде
-шляхом з найменшою сумарною затримкою (навiть якщо цей шлях пролягає
-через iншого клiєнта).
-• Усi затримки — сталi додатнi числа.
-Для прикладу вище, затримки до клiєнтiв становлять:
-• Client 1: 10 + 80 + 50 = 140 ms
-• Client 2: 100 + 50 = 150 ms
-• Client 3: 20 ms
-Максимальною затримкою в такому випадку є 150 ms. Однак, якщо ми помiняємо
-ролями вузли “Router 2” i “Server”, затримки скоротяться до 90 ms, 100 ms i 70 ms
-вiдповiдно, тодi максимальна затримка буде становити 100 ms.
+1. **Graph Representation:** The network topology is stored as an adjacency list.
+2. **Custom Priority Queue:** A `MinHeap` class is implemented from scratch with `sift_up` and `sift_down` operations to efficiently fetch the node with the smallest current distance.
+3. **Dijkstra's Algorithm:** For *each* potential server node (any node not in the clients list), the algorithm calculates the shortest paths to all other nodes in the network.
+4. **Minimax Optimization:** For a given server, we find the maximum latency among all clients. We then compare this maximum across all possible server placements and select the overall minimum.
 
-![alt text](image-1.png)
+### ⏱️ Complexity
+* **Time Complexity:** $\mathcal{O}(V \times (V + E) \log V)$, where $V$ is the number of vertices (up to 1000) and $E$ is the number of edges (up to 1000). Running Dijkstra's algorithm takes $\mathcal{O}((V + E) \log V)$ using the Min-Heap, and we run it at most $V$ times (for each potential server).
+* **Space Complexity:** $\mathcal{O}(V + E)$ to store the graph as an adjacency list, plus $\mathcal{O}(V)$ for the distances array and the priority queue.
 
-Ви розробляєте онлайн-гру для користувачiв зi всiєї країни, i бажаєте розмiстити
-центральний iгровий сервер таким чином, щоб максимальна затримка мiж сервером
-i кожним клiєнтом була мiнiмальною. В якостi сервера можна вибрати будь-який
-вузол мережi, який не є клiєнтом.
-Маючи iнформацiю про топологiю мережi (якi вузли з’єднанi з якими, i яка затримка
-кожного з’єднання), знайдiть таке розташування сервера, яке мiнiмiзує найбiльше
-значення затримки до клiєнта. Виведiть це значення затримки.
-Вхiднi данi
-Вхiдний файл gamsrv .in складається з M + 2 рядкiв.
-• Перший рядок мiстить N i M — кiлькiсть вузлiв та з’єднань вiдповiдно.
-3 ≤ N ≤ 1000, 2 ≤ M ≤ 1000
-• Другий рядок мiстить перелiк цiлих чисел, роздiлених пробiлом — номери
-вузлiв, якi є клiєнтами. Усi вузли в мережi нумеруються вiд 1 до N.
-• Наступнi M рядкiв мiстять трiйки натуральних чисел startnode, endnode, latency
-— номер початкового вузла, кiнцевого вузла та затримка для кожного з’єднання.
-1 ≤ latency ≤ 109
-.
+---
 
-Вихiднi данi
-Вихiдний файл gamsrv .out повинен мiстити одне число — мiнiмальне значення найбiльшої
-затримки до клiєнта (яке ми отримаємо при оптимальному розташуваннi сервера).
+## 📁 Project Structure
 
-Приклад 1
-gamsrv .in
-6 6
-1 2 6
-1 3 10
-3 4 80
-4 5 50
-5 6 20
-2 3 40
-2 4 100
-gamsrv .out
-100
-
-Приклад 2
-gamsrv .in
-9 12
-2 4 6
-1 2 20
-2 3 20
-3 6 20
-6 9 20
-9 8 20
-8 7 20
-7 4 20
-4 1 20
-5 2 10
-5 4 10
-5 6 10
-5 8 10
-gamsrv .out
-10
-
-Приклад 3
-gamsrv .in
-3 2
-1 3
-1 2 50
-2 3 1000000000
-gamsrv .out
-1000000000
+```text
+├── src/
+│   └── server.py        # Core algorithm (Dijkstra + custom MinHeap)
+├── tests/
+│   └── test_server.py   # Unit tests for the given examples
+└── README.md

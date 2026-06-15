@@ -1,5 +1,12 @@
+import sys
+import os
+
+current_dir = os.path.dirname(__file__)
+parent_dir = os.path.abspath(os.path.join(current_dir, '..'))
+sys.path.insert(0, parent_dir)
+
 import unittest
-from server import solve_gamsrv
+from src.server import solve_gamsrv
 class TestGamSrv(unittest.TestCase):
 
     def test_example_1(self):
