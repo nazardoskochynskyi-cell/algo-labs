@@ -1,4 +1,4 @@
-# Red-Black Tree based Priority Queue
+#  Red-Black Tree based Priority Queue
 
 ## 📝 Project Overview
 This project features a custom implementation of a **Priority Queue** backed by a **Red-Black Tree** to guarantee balanced performance. To demonstrate its practical utility, the data structure is integrated into an interactive **Airport Boarding Gate Simulator**, where passengers are dynamically managed and boarded based on their status priority (VIP, Special Needs, Business, Economy).
