@@ -1,45 +1,44 @@
-## algo-labs
-                Доскочинський Назарій ІР-12
-        Алгоритмізація та програмування частина 2
+Binary Tree In-Order Successor Search
 
-#                  Варіант 1, рівень 3
+## 📝 Project Overview
+This project implements an algorithm to find the **in-order successor** of a given node in a Binary Tree. Additionally, it features a custom post-order deserializer to construct trees dynamically from text files and a neat console-based tree visualizer.
 
-* Для заданого бінарного дерева та конкретної вершини в цьому дереві реалізуйте
-функцію пошуку наступного елемента під час серединного проходу (in-order
-traversal). Наступник - це вузол, який має значення більше за заданий вузол і
-знаходиться найближче до нього при серединному обході.
-Нехай у вас задане бінарне дерево такого вигляду:
-```
-10
-/ \
-5 15
-/ \ \
-3 7 20
-/
-12
-```
-Для вершини зі значенням 7, наступник - це вузол зі значенням 10.
-Функція отримує на вхід корінь бінарного дерева та вершину, для якої потрібно
-знайти наступника.
-Клас, який описує бінарне дерево (та будь який вузол дерева) має вигляд:
-```
-# This is the class of the input binary tree.
-class BinaryTree:
-def __init__(self, value, left=None, right=None, parent=None):
-self.value = value
-self.left = left
-self.right = right
-self.parent = parent
-```
-Ваша функція має мати такий вигляд:
-```
-def find_successor(tree: BinaryTree, node: BinaryTree) -> BinaryTree:
-```
-Реалізація даної задачі не вимагає написання коду вставки чи виділення елементів
-з бінарного дерева. У тесті ви можете створити достатню кількість елементів
-класу `BinaryTree` наступним чином:
-```
-root = BinaryTree(3)
-root.left = BinaryTree(9)
-root.right = BinaryTree(20)
+### 🎯 Exercise Task
+Given a binary tree and a specific node within it, implement a function to find the next element during an in-order traversal (Left-Root-Right). The successor is the node with the smallest key greater than the key of the input node. The function `find_successor(tree, node)` takes the root of the tree and the target node as inputs and returns the successor node. 
 
+*Example Tree:*
+```text
+      10
+     /  \
+    5    15
+   / \   / \
+  3   7 12  20
+
+For the node with value 7, the in-order successor is the node with value 10.
+```
+## ⚙️ Algorithm Explanation
+1. In-Order Successor Search
+
+The algorithm operates in O(H) time, where H is the height of the tree, by handling two main cases without needing to traverse the entire tree:
+
+Node has a right subtree: The successor is the leftmost node in that right subtree. The algorithm steps into the right child and continuously moves left until it hits a leaf.
+
+Node does NOT have a right subtree: We must look up the parent chain. The successor is the lowest ancestor of the node whose left child is also an ancestor of the node. The algorithm traverses up the tree until it is no longer a right child.
+
+2. Post-Order Deserialization & Visualization (Bonus)
+
+The project includes a robust method to parse a serialized post-order string (e.g., nil nil 3 nil nil 6 nil 7 5 ...) to dynamically reconstruct the tree objects in memory, complete with parent pointers. It also includes a print_tree method that calculates dynamic offsets to beautifully render the tree structure directly in the terminal using ASCII formatting.
+## ⏱️ Complexity
+
+Time Complexity (Search): O(H), where H is the height of the tree. In a balanced tree, this is O(logN); in the worst case (a heavily skewed tree), it degrades to O(N).
+
+Space Complexity (Search): O(1), as the search algorithm relies solely on constant extra space via pointer manipulation.
+
+## 📁 Project Structure
+```
+├── pre_tree.txt         # Input file containing serialized post-order tree data
+├── lab3.py              # Core implementation (find_successor function)
+├── extra_lab3.py        # Tree deserializer and CLI visualizer
+├── test_lab3.py         # Unit tests for the search logic
+└── README.md
+```
